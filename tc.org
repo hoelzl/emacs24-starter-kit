@@ -13,7 +13,8 @@
   (when window-system
     (tool-bar-mode -1)
     (setq initial-frame-alist
-          '((top . 0) (left . 180) (width . 100) (height . 54))))
+          '((top . 0) ; (left . 180) 
+            (width . 100) (height . 54))))
 #+END_SRC
 
 * Global Key Bindings
@@ -29,9 +30,9 @@ only ~F12~ is bound to ~compile~.
 
 #+BEGIN_SRC emacs-lisp
   (setq ido-use-filename-at-point 'guess)
-  (setq ido-file-extensions-order '(".org" ".text" ".txt" ".el"))
+  (setq ido-file-extensions-order
+        '(".org" ".tex" ".text" ".txt" ".el"))
   (setq ido-use-virtual-buffers t)
-
 #+END_SRC
 
 * Customize Org Mode
