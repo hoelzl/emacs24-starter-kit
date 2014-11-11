@@ -13,7 +13,7 @@
   (when window-system
     (tool-bar-mode -1)
     (setq initial-frame-alist
-          '((top . 0) ; (left . 180) 
+          '((top . 0) ; (left . 180)
             (width . 100) (height . 54))))
 #+END_SRC
 
