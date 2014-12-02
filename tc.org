@@ -31,19 +31,14 @@ only ~F12~ is bound to ~compile~.
 #+BEGIN_SRC emacs-lisp
   (setq ido-use-filename-at-point 'guess)
   (setq ido-file-extensions-order
-        '(".org" ".tex" ".text" ".txt" ".el"))
+        '(".org"
+          "*.jl" "*.lisp" "*.el" "*.rs"
+          "*.h" "*.cpp" "*.c" ".el"
+          "*.md" "*.rst" ".tex" ".text" ".txt"
+          "*.bib" ".log" "*.bbl"))
   (setq ido-use-virtual-buffers t)
 #+END_SRC
 
-* Customize Org Mode
-
-#+BEGIN_SRC emacs-lisp
-  (setq org-confirm-babel-evaluate nil)
-  (add-hook 'org-babel-after-execute-hook
-            'org-display-inline-images)
-  (add-hook 'org-mode-hook
-            'org-display-inline-images)
-#+END_SRC
 * Load Some Additional Starter-Kit Files
 
 #+BEGIN_SRC emacs-lisp
@@ -55,12 +50,30 @@ only ~F12~ is bound to ~compile~.
 
 * Julia
 
+Julia works rather well with ESS, but the default writer chokes on
+code blocks that don't end with an iterable.  Therefore we override
+the command to write objects.  The ~trywritecsv~ function has to be
+defined in the =~/.juliarc.js= file, e.g., using the following
+definition:
+
+#+BEGIN_SRC julia :tangle no :eval never
+function trywritecsv(io, a; opts...)
+    try writecsv(io, a; opts...)
+    catch open(io, "w") do stream
+              write(stream, "")
+          end
+    end
+end;
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (load (expand-file-name "~/Prog/Julia/Emacs/Ess/lisp/ess-site.el"))
   (add-to-list 'load-path
                (expand-file-name "~/Prog/Julia/Emacs/Ob-Julia"))
   (setq inferior-julia-program-name "julia")
   (setq inferior-julia-args "-q --color=no")
+  (load (expand-file-name "~/Prog/Julia/Emacs/Ob-Julia/ob-julia.el"))
+  (setq org-babel-julia-write-object-command "trywritecsv(\"%s\",%s)")
 #+END_SRC
 
 * Rust
@@ -70,4 +83,19 @@ only ~F12~ is bound to ~compile~.
   (add-hook 'rust-mode-hook
             (lambda ()
               (set (make-local-variable 'compile-command) "cargo run")))
+#+END_SRC
+* Customize Org Mode
+
+This section assumes that the path to =ob-julia.el= has already been
+set.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-confirm-babel-evaluate nil)
+  (add-hook 'org-babel-after-execute-hook
+            'org-display-inline-images)
+  (add-hook 'org-mode-hook
+            'org-display-inline-images)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp t) (julia . t)))
 #+END_SRC
