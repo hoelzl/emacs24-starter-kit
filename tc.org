@@ -84,6 +84,18 @@ end;
             (lambda ()
               (set (make-local-variable 'compile-command) "cargo run")))
 #+END_SRC
+
+* Clojure
+
+Ensure that ~clojure-mode~ and ~cider~ are present.  Since multiple
+versions of cider are present in the repositories it may be necessary
+to install the desired version manually.
+
+#+BEGIN_SRC emacs-lisp
+  (starter-kit-install-if-needed 'clojure-mode)
+  (starter-kit-install-if-needed 'cider)
+#+END_SRC
+
 * Customize Org Mode
 
 This section assumes that the path to =ob-julia.el= has already been
