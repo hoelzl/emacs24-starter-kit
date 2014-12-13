@@ -105,7 +105,7 @@ for how this is done.
 * Customize Org Mode
 
 This section assumes that the path to =ob-julia.el= has already been
-set.
+set and allosw Julia to display inline images.
 
 #+BEGIN_SRC emacs-lisp
   (setq org-confirm-babel-evaluate nil)
@@ -117,3 +117,11 @@ set.
    'org-babel-load-languages
    '((emacs-lisp t) (julia . t)))
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-reveal)
+  (setq org-reveal-root
+        (concat "file://"
+                (expand-file-name "~/Prog/JavaScript/Libraries/Reveal-Js")))
+#+END_SRC
+
