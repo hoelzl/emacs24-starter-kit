@@ -89,11 +89,17 @@ end;
 
 Ensure that ~clojure-mode~ and ~cider~ are present.  Since multiple
 versions of cider are present in the repositories it may be necessary
-to install the desired version manually.
+to ensure that the correct version is loaded if you are not using the
+latest version of Emacs.  See https://github.com/clojure-emacs/cider
+for how this is done.
 
 #+BEGIN_SRC emacs-lisp
   (starter-kit-install-if-needed 'clojure-mode)
   (starter-kit-install-if-needed 'cider)
+  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+  (setq nrepl-hide-special-buffers t)
+  (setq cider-repl-history-file (expand-file-name "~/.cider-history"))
+  (add-hook 'cider-repl-mode-hook 'paredit-mode)
 #+END_SRC
 
 * Customize Org Mode
