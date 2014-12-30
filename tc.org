@@ -125,3 +125,10 @@ set and allosw Julia to display inline images.
                 (expand-file-name "~/Prog/JavaScript/Libraries/Reveal-Js")))
 #+END_SRC
 
+* Customize AucTeX Mode
+
+#+BEGIN_SRC emacs-lisp
+  (require 'reftex)
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (add-hook 'latex-mode-hook 'turn-on-reftex)
+#+END_SRC
