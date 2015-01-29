@@ -96,6 +96,23 @@ to install the desired version manually.
   (starter-kit-install-if-needed 'cider)
 #+END_SRC
 
+* Lua
+
+Ensure that ~lua-mode~ and ~flymake-lua~ are present.
+
+#+BEGIN_SRC emacs-lisp
+  (starter-kit-install-if-needed 'lua-mode)
+  (starter-kit-install-if-needed 'flymake-lua)
+#+END_SRC
+
+* Markdown
+
+Ensure that ~markdown-mode~ is present.
+
+#+BEGIN_SRC emacs-lisp
+  (starter-kit-install-if-needed 'markdown-mode)
+#+END_SRC
+
 * Customize Org Mode
 
 This section assumes that the path to =ob-julia.el= has already been
