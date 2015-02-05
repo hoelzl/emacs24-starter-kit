@@ -135,14 +135,22 @@ set and allosw Julia to display inline images.
    '((emacs-lisp t) (julia . t)))
 #+END_SRC
 
-Enable support for bibliographies.
+Enable support for bibliographies.  This requires the environment
+variable ~ORG_HOME~ to be set to the root directory of an Org source
+checkout.
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path
                (format "%s/contrib/lisp" (getenv "ORG_HOME")))
   (require 'ox-bibtex)
 #+END_SRC
 
-Support export to ~reveal.js~.
+Support export to ~reveal.js~.  For this to work the environment
+variable ~ORG_HOME~ has to point to a directory that contains the Org
+source code together with the ~ox-reveal.el~ file from
+[[https://github.com/yjwen/org-reveal/]].  One way to obtain this is to
+clone my Org-mode fork at [[https://github.com/hoelzl/Org-Mode]] which
+already contains this file.
+
 #+BEGIN_SRC emacs-lisp
   (require 'ox-reveal)
   (setq org-reveal-root
@@ -157,6 +165,7 @@ Support export to ~reveal.js~.
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (add-hook 'latex-mode-hook 'turn-on-reftex)
 #+END_SRC
+
 * Support for APEX, the ASCENS Pattern Explorer
 
 We define a project for Apex that generates a web site from org-mode
@@ -259,41 +268,41 @@ descriptions of the patterns plus some static content.
       <script src=\"jquery-1.11.2.min.js\"></script>
       <script src=\"bt/js/bootstrap.min.js\"></script>")
 
-    (setq org-publish-project-alist
-          `(("apex-patterns"
-             :base-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Patterns")
-             :publishing-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Export")
-             :publishing-function org-html-publish-to-html
-             :section-numbers nil
-             :html-head "<link href=\"css/fix.css\" rel=\"stylesheet\">"
-             :html-head "<link href=\"bt/css/bootstrap.min.css\" rel=\"stylesheet\">"
-             :html-doctype "html5"
-             :html-html5-fancy t
-             :html-head-include-default-style nil
-             :html-preamble apex-preamble
-             :html-postamble apex-postamble
-             :html-mathjax-options ((path "mj/MathJax.js?config=TeX-AMS-MML_HTMLorMML")
-                                    (scale "100")
-                                    (align "center")
-                                    (indent "2em")
-                                    (mathml nil))
-             :with-toc nil
-             :auto-sitemap t
-             :sitemap-title "All Patterns"
-             :sitemap-filename "Patterns.org"
-             :sitemap-sans-extension nil)
-            ("apex-html"
-             :base-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Patterns")
-             :publishing-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Export")
-             :publishing-function org-publish-attachment
-             :base-extension "html"
-             :recursive t)
-            ("apex-static"
-             :base-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Include")
-             :publishing-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Export")
-             :publishing-function org-publish-attachment
-             :base-extension any
-             :recursive t)
-            ("apex"
-             :components ("apex-static" "apex-html" "apex-patterns"))))
+  (setq org-publish-project-alist
+        `(("apex-patterns"
+           :base-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Patterns")
+           :publishing-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Export")
+           :publishing-function org-html-publish-to-html
+           :section-numbers nil
+           :html-head "<link href=\"css/fix.css\" rel=\"stylesheet\">"
+           :html-head "<link href=\"bt/css/bootstrap.min.css\" rel=\"stylesheet\">"
+           :html-doctype "html5"
+           :html-html5-fancy t
+           :html-head-include-default-style nil
+           :html-preamble apex-preamble
+           :html-postamble apex-postamble
+           :html-mathjax-options ((path "mj/MathJax.js?config=TeX-AMS-MML_HTMLorMML")
+                                  (scale "100")
+                                  (align "center")
+                                  (indent "2em")
+                                  (mathml nil))
+           :with-toc nil
+           :auto-sitemap t
+           :sitemap-title "All Patterns"
+           :sitemap-filename "Patterns.org"
+           :sitemap-sans-extension nil)
+          ("apex-html"
+           :base-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Patterns")
+           :publishing-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Export")
+           :publishing-function org-publish-attachment
+           :base-extension "html"
+           :recursive t)
+          ("apex-static"
+           :base-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Include")
+           :publishing-directory ,(expand-file-name "~/Uni/Projects/Ascens/Apex/Export")
+           :publishing-function org-publish-attachment
+           :base-extension any
+           :recursive t)
+          ("apex"
+           :components ("apex-static" "apex-html" "apex-patterns"))))
 #+END_SRC
