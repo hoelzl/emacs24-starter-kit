@@ -153,9 +153,13 @@ already contains this file.
 
 #+BEGIN_SRC emacs-lisp
   (require 'ox-reveal)
-  (setq org-reveal-root
-        (concat "file://"
-                (expand-file-name "~/Prog/JavaScript/Libraries/Reveal-Js")))
+  ;; (setq org-reveal-root
+  ;;       (concat "file://"
+  ;;               (expand-file-name
+  ;;               "~/Prog/JavaScript/Libraries/Reveal-Js")))
+  ;; This requires reveal to be in the same directory as the sources,
+  ;; i.e., css files should be in a css/ directory.
+  (setq org-reveal-root "")
 #+END_SRC
 
 * Customize AucTeX Mode
