@@ -26,17 +26,27 @@ only ~F12~ is bound to ~compile~.
   (global-set-key (kbd "<f12>") 'compile)
 #+END_SRC
 
+
+* Remember Your History
+
+#+BEGIN_SRC emacs-lisp
+  (require 'recentf)
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  ;; (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+#+END_SRC
+
 * Customize Ido Mode
 
 #+BEGIN_SRC emacs-lisp
-  (setq ido-use-filename-at-point 'guess)
-  (setq ido-file-extensions-order
-        '(".org"
-          "*.jl" "*.lisp" "*.el" "*.rs"
-          "*.h" "*.cpp" "*.c" ".el"
-          "*.md" "*.rst" ".tex" ".text" ".txt"
-          "*.bib" ".log" "*.bbl"))
-  (setq ido-use-virtual-buffers t)
+  ;; (setq ido-use-filename-at-point 'guess)
+  ;; (setq ido-file-extensions-order
+  ;;       '(".org"
+  ;;         "*.jl" "*.lisp" "*.el" "*.rs"
+  ;;         "*.h" "*.cpp" "*.c" ".el"
+  ;;         "*.md" "*.rst" ".tex" ".text" ".txt"
+  ;;         "*.bib" ".log" "*.bbl"))
+  ;; (setq ido-use-virtual-buffers t)
 #+END_SRC
 
 * Load Some Additional Starter-Kit Files
@@ -160,10 +170,30 @@ already contains this file.
 
 * Customize AucTeX Mode
 
+Use reftex.
+
 #+BEGIN_SRC emacs-lisp
   (require 'reftex)
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (add-hook 'latex-mode-hook 'turn-on-reftex)
+#+END_SRC
+
+Use Sumatra on windows
+
+#+BEGIN_SRC emacs-lisp
+  (setq TeX-PDF-mode t)
+  (setq TeX-source-correlate-mode t)
+  (setq TeX-source-correlate-method 'synctex)
+  (when (or (eq system-type 'ms-dos)
+            (eq system-type 'windows-nt))
+      (setq TeX-view-program-list
+            '(("Sumatra PDF" ("\"C:/Program Files (x86)/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
+                              (mode-io-correlate " -forward-search %b %n ") " %o"))))
+
+      (eval-after-load 'tex
+        '(progn
+           (assq-delete-all 'output-pdf TeX-view-program-selection)
+           (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF")))))
 #+END_SRC
 
 * Support for APEX, the ASCENS Pattern Explorer
